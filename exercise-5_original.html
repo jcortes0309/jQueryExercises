@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Fifth jQuery Exercise</title>
+    <title>Todo List Exercise</title>
     <script src="jquery.js"></script>
     <script>
     /*
@@ -12,19 +12,6 @@
     */
     $(function() {
       // Write code here
-
-      $("a").click(function (event) {
-        // Prevents the default behavior of clicking a link (opening the page in the same window)
-        event.preventDefault();
-        // Check to see how many a elements are in the page
-        console.log("Found these many elements: ", $("a"));
-        // Take the href from the clicked link (a element) and assign it to the variable source
-        var source = $(this).attr("href");
-        // Check to see what's the value we now have in the variable source
-        console.log("Source will be: " + source);
-        // Use the value in the variable source and assign it to the iframe src
-        $("#iframe").attr("src", source);
-      });
     });
     </script>
   </head>
