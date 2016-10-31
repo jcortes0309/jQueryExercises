@@ -10,29 +10,110 @@
 
     0. Make it so that after entering the task description, in the text field and clicking the "Add Task" button, a new task appears inside the element with the id todo-list.
     1. the ability to remove tasks (add an x button)
-    2. the ability to check off tasks - strikes them out wo removing (add a checkbox)
+    2. the ability to check off tasks - strikes them out w/o removing (add a checkbox)
     3. the ability to delete a task
     4. the ability to edit an existing task
 
     */
+      $(function() {
+        // 0. After entering the task description, in the text field and clicking the "Add Task" button, a new task appears inside the element with the id todo-list.
+        $("#add-button").click(function () {
+          console.log("'Add Task' button works!");
+          var description = $("#description").val();
+          console.log("Input in the text field is: " + description);
+          // 1. The ability to remove tasks (add an x button)
+          // 2. The ability to check off tasks - strikes them out w/o removing (add a checkbox)
+          $("#todo-list").append("<li> <input class='checkbox' type='checkbox'> <span> " + description + " </span><button class='remove' type='button' name='delete'>	&#x2715;</button> </li>");
+        });
+        // 3. The ability to delete a task
+        $("#todo-list").on("click", ".remove", function () {
+          console.log("Clicked the button. Yay!");
+          $(this).parent("li").remove();
+        });
+
+        // 4. The ability to edit an existing task
+        // debugger
+        var original_description = "";
+        $("#todo-list").on("dblclick", "span", function () {
+          console.log("Going to edit shit!");
+          var original_description = $(this).closest("span").text();
+          console.log("Original description: " + original_description);
+          $(this).text("");
+          $("<input type='text'>").appendTo(this).focus().val(original_description);
+        });
+        $("#todo-list").on("focusout", "span > input", function () {
+          var new_description = $(this); // new_description = input type=text element
+          console.log($(this).val()); // shows the value inside the input type=text element
+          new_description.parent().text(new_description.val() || original_description);
+          new_description.remove(); // Remove the input type=text element
+        });
+
+        // 5. The ability to complete a task
+        $("#todo-list").on("click", "input", function () {
+          if ($(this).is(":checked")) {
+            console.log("Checkbox is checked");
+            $(this).parent("li").css("text-decoration", "line-through");
+          } else {
+            $(this).parent("li").css("text-decoration", "none");
+          }
+        });
+
+      });
     </script>
     <style>
-    #wrapper {
-      max-width: 480px;
-      margin: auto;
-    }
+      body {
+        box-sizing: border-box;
+      }
 
-    #description, #search, #todo-list {
-      font-size: 1.5em;
-    }
+      #wrapper {
+        max-width: 480px;
+        margin: auto;
+        margin-top: 5%;
+      }
+
+      #description, #search, #todo-list {
+        font-size: 1.5em;
+      }
+
+      ul#todo-list {
+        list-style: none;
+      }
+
+      #add-button {
+        background-color: #4CAF50;
+        border: none;
+        color: #FFF;
+        padding: 8px 20px;
+        text-align: center;
+        font-size: 16px;
+        vertical-align: bottom;
+        margin-left: 10px;
+      }
+
+      #todo-list button {
+        background-color: #F44336;
+        border: none;
+        color: #FFF;
+        padding: 2px 5px;
+        text-align: center;
+        font-size: 16px;
+        vertical-align: center;
+        margin-left: 2px;
+        border-radius: 3px;
+      }
     </style>
   </head>
   <body>
     <div id="wrapper">
+      <h1>Let's get stuff done!</h1>
+      <p>
+        Double click on a task to update it
+      </p>
+      <br>
       <input id="description" type="text" name="description">
       <button id="add-button">Add Task</button>
       <ul id="todo-list">
-        <li>Feed the cat</li>
+        <li> <input class="checkbox" type="checkbox"> <span>Feed the cat</span> <button class="remove" type="button" name="delete">&#x2715;</button></li>
       </ul>
     </div>
   </body>
